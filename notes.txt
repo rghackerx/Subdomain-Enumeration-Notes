@@ -1,0 +1,70 @@
+	1. Google Dorks
+
+		a. site:*.paytm.com   --> gives all the publicly indexed domains
+		b. site:*.paytm.com -seller-www-uk   --> we can use minus - symbol to exclude subdomain we don't want
+		c. intitle:”login” site:example.com   --> find specific word in title
+			i. intitle:"login" site:*.paytm.com
+		d. filetype:exe site:paytm.com
+		e. link:"paytm.com"  --> give all the sites which are pointing toward the particular domain which is given.
+		f. Cache:tryhackme.com --> it will give the cache version of the website , the content is different from the actual version.
+		g.  related:paytm.com --> any other site which is related to this will be indexed.
+	
+	
+	2. Virus Total  
+		a. Amazing tool.
+		b. https://www.virustotal.com/gui/home/search  >> put the domain >> go to relations section
+
+	3. DNS Dumpster
+		a. Amazing tool
+		b. https://dnsdumpster.com/
+
+	4. Amass Passive Recon
+		a. amass --passive -d appsecco.com # Amass 2.x
+		b. amass enum --passive -d appsecco.com # Amass 3.x
+		
+	5. Certificates Transparency 
+		a. This is a project by Cert. Auth. (CA) , which handle and log publicly the SSL/TLS certs of the websites.
+		 these certs. Are carrying domain , sub-domain and emails.
+		b. https://crt.sh/
+
+		--> crt.sh is also provide their PostgreSQL database access to find the certs with quarries.
+			Command :- psql -h crt.sh -p 5432 -U guest certwatch
+			
+		This link has some scripts carrying SQL quarries to make the findings more easier
+		"https://github.com/appsecco/the-art-of-subdomain-enumeration?source=post_page-----7d842d5570f6--------------------------------"
+		
+		NOTE : The downside of using CT for sub-domain enumeration is that the domain names found in the CT logs may not exist anymore and thus they can’t be resolved to an IP address. You can use tools like massdns in conjunction with CT logs to quickly identify resolvable domain names.
+		
+		# ct.py - extracts domain names from CT Logs(shipped with massdns)
+		# massdns - will find resolvable domains & adds them to a file 
+		./ct.py icann.org | ./bin/massdns -r resolvers.txt -t A -q -a -o -w icann_resolvable_domains.txt -
+		
+		
+		• -q: Quiet mode, suppresses non-error messages.
+		• -a: Output all records for resolved domains.
+		• -o: Outputs the results to stdout (standard output).
+		• -w icann_resolvable_domains.txt: Writes the resolvable domains to a file named icann_resolvable_domains.txt.
+		• -: Reads input from stdin (standard input), which in this case is received via the pipe from the previous command (./ct.py icann.org). 
+	
+	
+	6. DNS Recon
+		a. It is a tool capable to brute and search the subdomains
+		b. dnsrecon -d paytm.com -D subdomain-dictoinary.txt -t brt
+
+	7. Permutations Enumeration
+		a. In this technique, we identify new sub-domains using permutations, alterations and mutations of already known domains/sub-domains.
+		b. Altdns is a tool that allows for the discovery of sub-domains that conform to patterns.
+		c. python altdns.py -i icann.domains -o data_output -w icann.words -r -s results_output.txt 
+			
+		
+	8. ASN (Autonomous System Numbers) 
+		a. Firstly , find the ASN numbers from >>> https://bgp.he.net/
+		The ASN numbers found can be used to find netblocks of the domain. There are Nmap scripts to achieve that — https://nmap.org/nsedoc/scripts/targets-asn.html
+		
+		nmap --script targets-asn --script-args targets-asn.asn=17012
+		It will gives all the working IP's according to the subnet of the network and based on CIDR.
+		
+	9.  
+		
+			
+		
